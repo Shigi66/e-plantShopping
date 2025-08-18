@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
+import { useDispatch } from 'react-redux';  
+import { addItem } from './CartSlice';   
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-
+    const [addedToCart, setAddedToCart] = useState({});
+    const dispatch = useDispatch();
+    
+    const handleAddToCart = (product) => {
+        dispatch(addItem(product)); //  Despacha la acción para agregar el producto al carrito (acción de Redux)
+        setAddedToCart((prevState) => ({ // Actualiza el estado local para reflejar que el producto ha sido agregado
+          ...prevState, //  Copia el estado anterior para mantener las entradas existentes
+          [product.name]: true, //  Establece el nombre del producto actual como clave con valor 'true' para marcarlo como agregado
+        }));
+      };
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -274,9 +285,35 @@ function ProductList({ onHomeClick }) {
             </div>
             {!showCart ? (
                 <div className="product-grid">
-
-
-                </div>
+                 {plantsArray.map((category, index) => ( // / Recorre cada categoria en plantsArray
+                 <div key={index}> {/*  Clave única para cada div de categoría */}
+                 <h1>
+                <div>{category.category}</div> {/*  Muestra el nombre de la categoría */}
+                </h1>
+                <div className="product-list"> {/* Contenedor para la lista de tarjetas de plantas */}
+                {category.plants.map((plant, plantIndex) => ( // Recorre cada planta en la categoría actual
+                <div className="product-card" key={plantIndex}> {/* Clave unica para cada tarjeta de planta */}
+                <img 
+                className="product-image" 
+                src={plant.image} //Muestra la imagen de la planta
+                alt={plant.name} //Texto alternativo para accesibilidad
+                />
+                <div className="product-title">{plant.name}</div> {/* Muestra el nombre de la planta*/}
+                {/*Muestra otros detalles de la planta como descripción y costo */}
+                <div className="product-description">{plant.description}</div> {/*Muestra la descripción de la planta */}
+                <div className="product-cost">{plant.cost}</div> {/*  Muestra el costo de la planta */}
+                <button
+                className="product-button"
+                onClick={() => handleAddToCart(plant)} //  Maneja la acción de agregar la planta al carrito
+                >
+                Add to Cart
+             </button>
+           </div>
+          ))}
+        </div>
+        </div>
+        ))}
+ </div>
             ) : (
                 <CartItem onContinueShopping={handleContinueShopping} />
             )}
