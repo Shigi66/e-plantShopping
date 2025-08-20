@@ -17,9 +17,8 @@ const CartItem = ({ onContinueShopping }) => {
       }, 0);
   };
 
-  const handleContinueShopping = (e) => {
-    e.preventDefault();
-  onContinueShopping();
+  const handleContinueShopping = () => {
+     onContinueShopping();
   };
 
 
@@ -71,14 +70,18 @@ const CartItem = ({ onContinueShopping }) => {
       </div>
       <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
       <div className="continue_shopping_btn">
-        <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
-        <br />
-        <button className="get-started-button1">Checkout</button>
-      </div>
+      <button className="get-started-button" onClick={handleContinueShopping}>Continue Shopping</button>
+       <br />
+        <button 
+         className="get-started-button1" 
+         onClick={() => alert("Funcionalidad de pago próximamente")}
+         >
+         Checkout
+        </button>
+        </div>
     </div>
   );
 };
 
 export default CartItem;
-
 
