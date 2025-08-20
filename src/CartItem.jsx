@@ -74,7 +74,7 @@ const CartItem = ({ onContinueShopping }) => {
        <br />
         <button 
          className="get-started-button1" 
-         onClick={() => alert("Funcionalidad de pago próximamente")}
+         onClick={() => alert("Payment functionality coming soon 🙂")}
          >
          Checkout
         </button>
